@@ -1,10 +1,13 @@
 package com.pi.todosc40.tabs.list_fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.pi.todosc40.R
 import com.pi.todosc40.TodosAdapter
 import com.pi.todosc40.database.MyDataBase
 import com.pi.todosc40.database.entity.Todo
@@ -71,7 +74,16 @@ class TodoListFragment : Fragment() {
             }
 
             override fun onDoneClick(todo: Todo) {
-                TODO("Not yet implemented")
+                Log.e("done", "aloooo", )
+                // Toggle the isDone status (if it's done, make it not done and vice versa)
+                todo.isDone = !todo.isDone
+
+                // Update the todo in the database
+                MyDataBase.getInstance(requireContext()).getTodosDao().updateTodo(todo)
+                
+                // Refresh the list to reflect the changes
+                refreshTodos()
+
             }
 
             override fun onItemViewClick(todo: Todo) {

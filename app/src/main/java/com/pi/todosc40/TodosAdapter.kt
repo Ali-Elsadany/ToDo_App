@@ -2,6 +2,7 @@ package com.pi.todosc40
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -15,13 +16,35 @@ class TodosAdapter(var todosList: List<Todo>) : Adapter<TodosAdapter.TodosViewHo
         return TodosViewHolder(binding = binding)
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
     override fun onBindViewHolder(holder: TodosViewHolder, position: Int) {
         val todo = todosList[position]
-        holder.binding.todoTitleTv.text = todo.title
-        holder.binding.todoDescriptionTv.text = todo.description
-        holder.binding.leftView.setOnClickListener {
-            listener?.onDelete(todo)
+        Log.e("ee", todo.isDone.toString(), )
+        holder.binding.apply {
+            if (todo.isDone){
+                doneText.visibility = View.VISIBLE
+                icDone.visibility = View.GONE
+                verticalLine.setBackgroundResource(R.color.green)
+                todoTitleTv.setTextColor(holder.itemView.resources.getColor(R.color.green))
+            }else{
+                doneText.visibility = View.GONE
+                icDone.visibility = View.VISIBLE
+                verticalLine.setBackgroundResource(R.color.blue)
+                todoTitleTv.setTextColor(holder.itemView.resources.getColor(R.color.blue))
+            }
+            todoTitleTv.text = todo.title
+            todoDescriptionTv.text = todo.description
+            leftView.setOnClickListener {
+                listener?.onDelete(todo)
+            }
+            icDone.setOnClickListener() {
+                listener?.onDoneClick(todo)
+            }
         }
+
         Log.e("onBindViewHolder", "BINDING DATA OF TODO: ${todo.id}")
     }
 

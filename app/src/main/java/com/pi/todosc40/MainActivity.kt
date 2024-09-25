@@ -2,12 +2,14 @@ package com.pi.todosc40
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.pi.todosc40.databinding.ActivityMainBinding
 import com.pi.todosc40.tabs.list_fragment.TodoListFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var listFragment = TodoListFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
+
     }
 
     private fun showListFragment() {
